@@ -1,0 +1,16 @@
+{
+  "agent": { "run_as_user": "cwagent", "region": "ap-southeast-1" },
+  "logs": {
+    "logs_collected": {
+      "files": {
+        "collect_list": [{
+          "file_path": "/var/log/postgresql/postgresql-*.log",
+          "log_group_name": "/fds/core-banking/pgaudit",
+          "log_stream_name": "{instance_id}",
+          "timezone": "UTC",
+          "filters": [{ "type": "include", "expression": "AUDIT:" }]
+        }]
+      }
+    }
+  }
+}

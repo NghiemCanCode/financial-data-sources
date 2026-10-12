@@ -1,0 +1,15 @@
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+*.auto.tfvars
+**/terraform/backend.hcl
+**/pgbackrest.conf
+.env
+
+*.key
+*.crt
+*.csr
+
+docs/
