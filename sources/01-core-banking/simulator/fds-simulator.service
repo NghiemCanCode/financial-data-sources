@@ -7,6 +7,10 @@ Wants=network-online.target
 User=fds-sim
 Group=fds-sim
 EnvironmentFile=/etc/fds-simulator.env
+# libpq looks for a client cert at $HOME/.postgresql/postgresql.crt. The service user has no home
+# and ProtectHome hides /home, which libpq reports as "Permission denied" instead of skipping.
+# Pointing HOME at the runtime dir makes that path simply absent.
+Environment=HOME=/run/fds-simulator
 RuntimeDirectory=fds-simulator
 RuntimeDirectoryMode=0700
 # "+" = run as root, outside the sandbox below. Invoked via bash because s3 sync does not keep the exec bit.

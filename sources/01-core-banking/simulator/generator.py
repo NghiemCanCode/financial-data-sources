@@ -88,6 +88,7 @@ def main():
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     signal.signal(signal.SIGTERM, _stop)
     signal.signal(signal.SIGINT, _stop)
+    log.info("starting: speed=%s tick=%s batch=%s core=%s replay=%s", SPEED, TICK, BATCH, CORE_DB, REPLAY_DB)
 
     with psycopg.connect(dbname=REPLAY_DB, autocommit=True, application_name="fds-simulator-replay") as rq, \
          psycopg.connect(dbname=CORE_DB, autocommit=True, application_name="fds-simulator") as core:

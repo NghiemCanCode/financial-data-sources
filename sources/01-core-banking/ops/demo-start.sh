@@ -17,7 +17,10 @@ echo ">> Health check + partition maintenance"
 run_remote "$CORE_ID" '
 set -e
 sudo -u postgres pg_isready -t 120
-sudo -u postgres psql -XAt -d core_banking -c "SET ROLE core_owner; CALL partman.run_maintenance_proc();"
+# Two -c flags, not one: a procedure with COMMIT inside cannot run in the implicit
+# transaction psql opens when several statements share a single -c. SET ROLE persists
+# across -c flags because they run in the same session.
+sudo -u postgres psql -XAt -d core_banking -c "SET ROLE core_owner" -c "CALL partman.run_maintenance_proc()"
 echo "--- slots"
 sudo -u postgres psql -XAt -c "SELECT slot_name, active, wal_status, pg_size_pretty(pg_wal_lsn_diff(pg_current_wal_lsn(), restart_lsn)) FROM pg_replication_slots"
 echo "--- archiver"
